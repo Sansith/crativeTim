@@ -26,14 +26,22 @@ import RTLLayout from "layouts/RTL/RTL.js";
 import "assets/scss/black-dashboard-react.scss";
 import "assets/demo/demo.css";
 import "assets/css/nucleo-icons.css";
+import RoomPage from "layouts/Rooms/RoomPage";
+import AllocationDetails from "layouts/Rooms/AllocationDetails";
 
 const hist = createBrowserHistory();
 
 ReactDOM.render(
   <Router history={hist}>
     <Switch>
-      <Route path="/admin" render={props => <AdminLayout {...props} />} />
-      <Route path="/rtl" render={props => <RTLLayout {...props} />} />
+      <Route path="/admin" render={(props) => <AdminLayout {...props} />} />
+      <Route path="/rtl" render={(props) => <RTLLayout {...props} />} />
+      <Route
+        path="/rooms/allocationData"
+        render={(props) => <AllocationDetails {...props} />}
+      />
+      <Route path="/rooms" render={(props) => <RoomPage {...props} />} />
+
       <Redirect from="/" to="/admin/dashboard" />
     </Switch>
   </Router>,
