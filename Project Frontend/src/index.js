@@ -28,6 +28,9 @@ import "assets/demo/demo.css";
 import "assets/css/nucleo-icons.css";
 import RoomPage from "layouts/Rooms/RoomPage";
 import AllocationDetails from "layouts/Rooms/AllocationDetails";
+import UpdateAllocationData from "layouts/Rooms/UpdateAllocationData";
+import RoomDetails from "layouts/Rooms/RoomDetails";
+import RoomsCard from "layouts/Rooms/RoomsCard";
 
 const hist = createBrowserHistory();
 
@@ -37,12 +40,31 @@ ReactDOM.render(
       <Route path="/admin" render={(props) => <AdminLayout {...props} />} />
       <Route path="/rtl" render={(props) => <RTLLayout {...props} />} />
       <Route
+        path="/rooms/allocationData/update/:allocId"
+        render={(props) => <UpdateAllocationData {...props} />}
+      />
+      <Route
         path="/rooms/allocationData"
         render={(props) => <AllocationDetails {...props} />}
       />
+      <Route
+        path="/rooms/roomData/updateRoom/:roomId"
+        render={(props) => <RoomsCard isUpdate={true} {...props} />}
+      />
+      <Route
+        path="/rooms/roomData/addRoom"
+        render={(props) => <RoomsCard isUpdate={false} {...props} />}
+      />
+      <Route
+        path="/rooms/roomData"
+        render={(props) => <RoomDetails {...props} />}
+      />
       <Route path="/rooms" render={(props) => <RoomPage {...props} />} />
-
-      <Redirect from="/" to="/admin/dashboard" />
+      <Route
+        path="/rooms/update"
+        render={(props) => <AllocationDetails {...props} />}
+      />
+      {/* <Redirect from="/" to="/admin/dashboard" /> */}
     </Switch>
   </Router>,
   document.getElementById("root")

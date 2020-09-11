@@ -1,19 +1,17 @@
 import React, { Component } from "react";
 import { Card } from "reactstrap";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 
-class AllocationCard extends Component {
+class RoomsCard extends Component {
   constructor(props) {
     super(props);
     this.state = {
       inputs: {
-        InputAllocType: "",
-        allocDate: "",
-        selectTimeSlot: "",
-        allocRoomTxt: "",
-        doctorTxt: "",
-        fromTime: "",
-        toTime: "",
+        roomName: "",
+        roomDescription: "",
+        roomType: "",
+        roomLocation: "",
+        roomStatus: "",
       },
     };
   }
@@ -21,7 +19,7 @@ class AllocationCard extends Component {
     if (this.props.isUpdate) {
       //this means the component is going to render in update mode
       // first get the related data to the provied ID and change the State
-      const allocId = this.props.allocId;
+      const allocId = this.props.match.params.roomId;
     } else {
       //fetch rooms and Doctors here
     }
@@ -39,25 +37,25 @@ class AllocationCard extends Component {
 
   handleSubmit = () => {
     //call submit apis here
+
+    //after submitting data redirect to Rooms table
+    this.props.history.push("/rooms/roomData");
   };
 
   handleClear = () => {
-    if (this.props.isUpdate) {
-      this.props.history.push("/rooms/allocationData");
-    } else {
+    //in add new record mode clear button will redirect to the table view
+    if (!this.props.isUpdate) {
       this.setState({
         inputs: {
-          InputAllocType: "",
-          allocDate: "",
-          selectTimeSlot: "",
-          allocRoomTxt: "",
-          doctorTxt: "",
-          noOfAppointments: 0,
-          currentAppointment: 0,
-          fromTime: "",
-          toTime: "",
+          roomName: "",
+          roomDescription: "",
+          roomType: "",
+          roomLocation: "",
+          roomStatus: "",
         },
       });
+    } else {
+      this.props.history.push("/rooms/roomData");
     }
   };
 
@@ -66,73 +64,50 @@ class AllocationCard extends Component {
       <Card>
         <div className="card">
           <h4 class="card-header card-header-info">
-            {this.props.isUpdate ? "Update Allocation Data" : "Allocation Data"}
+            {this.props.isUpdate ? "Update Room Data" : "Add New Room"}
           </h4>
 
           <div className="card-body">
             <form>
               {this.props.isUpdate ? (
                 <div className="form-group">
-                  <label htmlFor="InputAllocType">
-                    Allocation Id:{this.props.allocId || "N/A"}
+                  <label className="font-weight-bold" htmlFor="">
+                    Room Id:{this.props.match.params.roomId || "N/A"}
                   </label>
                 </div>
               ) : (
                 <div></div>
               )}
               <div className="form-group">
-                <label htmlFor="InputAllocType">Allocation Type:</label>
+                <label htmlFor="roomName">Room Name:</label>
                 <input
-                  value={this.state.inputs.InputAllocType}
+                  value={this.state.inputs.roomName}
                   onChange={this.handleInputChange}
                   type="text"
                   className="form-control"
-                  id="InputAllocType"
+                  id="roomName"
                   aria-describedby="AllocTypeHelp"
-                  placeholder="Enter Allocation Type"
+                  placeholder="Enter Room Name"
                 />
               </div>
               <div className="form-group">
-                <label htmlFor="allocDate">Allocation Date</label>
+                <label htmlFor="roomDescription">Room Description:</label>
                 <input
-                  type="date"
-                  value={this.state.inputs.allocDate}
+                  type="text"
+                  value={this.state.inputs.roomDescription}
                   onChange={this.handleInputChange}
                   className="form-control"
-                  id="allocDate"
-                  placeholder="Allocation date"
+                  id="roomDescription"
+                  placeholder="Description"
                 />
               </div>
               <div className="form-group">
-                <label htmlFor="selectTimeSlot">Time-Slot</label>
-                <div class="row">
-                  <div class="col">
-                    <input
-                      onChange={this.handleInputChange}
-                      id="fromTime"
-                      type="time"
-                      class="form-control"
-                      placeholder="From"
-                    />
-                  </div>
-                  <div class="col">
-                    <input
-                      onChange={this.handleInputChange}
-                      id="toTime"
-                      type="time"
-                      class="form-control"
-                      placeholder="Last name"
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="form-group">
-                <label htmlFor="allocRoomTxt">Allocated Room:</label>
+                <label htmlFor="roomType">Room Type:</label>
                 <select
-                  value={this.state.inputs.allocRoomTxt}
+                  value={this.state.inputs.roomType}
                   onChange={this.handleInputChange}
                   className="form-control"
-                  id="allocRoomTxt"
+                  id="roomType"
                 >
                   <option>1</option>
                   <option>2</option>
@@ -142,12 +117,12 @@ class AllocationCard extends Component {
                 </select>
               </div>
               <div className="form-group">
-                <label htmlFor="doctorTxt">Doctor:</label>
+                <label htmlFor="roomLocation">Room Location:</label>
                 <select
-                  value={this.state.inputs.doctorTxt}
+                  value={this.state.inputs.roomLocation}
                   onChange={this.handleInputChange}
                   className="form-control"
-                  id="doctorTxt"
+                  id="roomLocation"
                 >
                   <option>1</option>
                   <option>2</option>
@@ -157,30 +132,16 @@ class AllocationCard extends Component {
                 </select>
               </div>
               <div className="form-group">
-                <label htmlFor="noOfAppointments">No. of Appointments:</label>
-                <input
-                  value={this.state.inputs.noOfAppointments}
+                <label htmlFor="roomStatus">Room Status:</label>
+                <select
+                  value={this.state.inputs.roomStatus}
                   onChange={this.handleInputChange}
-                  type="number"
                   className="form-control"
-                  id="noOfAppointments"
-                  aria-describedby="noOfAppointmentsHelp"
-                  placeholder="Enter Number of Appointments"
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="currentAppointment">
-                  Current Appointments:
-                </label>
-                <input
-                  value={this.state.inputs.currentAppointment}
-                  onChange={this.handleInputChange}
-                  type="number"
-                  className="form-control"
-                  id="currentAppointment"
-                  aria-describedby="noOfAppointmentsHelp"
-                  placeholder="Enter Number of Appointments"
-                />
+                  id="roomStatus"
+                >
+                  <option>Available</option>
+                  <option>Unavaiable</option>
+                </select>
               </div>
               {this.props.isUpdate ? (
                 <div>
@@ -215,17 +176,6 @@ class AllocationCard extends Component {
                   >
                     Clear
                   </button>
-
-                  <Link to="/rooms/allocationData">
-                    <button
-                      // onClick={this.handleClear}
-
-                      type="button"
-                      className="btn btn-success"
-                    >
-                      View Allocation Data
-                    </button>
-                  </Link>
                 </div>
               )}
             </form>
@@ -236,4 +186,4 @@ class AllocationCard extends Component {
   }
 }
 
-export default AllocationCard;
+export default RoomsCard;

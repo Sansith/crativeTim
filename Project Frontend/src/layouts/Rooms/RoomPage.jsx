@@ -44,7 +44,7 @@ class RoomPage extends Component {
 
         <div className="content row">
           <div className="col-md-4 m3">
-            <AllocationCard></AllocationCard>
+            <AllocationCard isUpdate={false}></AllocationCard>
           </div>
           <div className="col-md-5 m3">
             <RoomDeailsCard></RoomDeailsCard>

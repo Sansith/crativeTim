@@ -41,10 +41,14 @@ class AllocationDetails extends Component {
             >
               Delete
             </Button>
-            <Button className="btn btn-warning btn-simple btn-sm m-1">
-              Edit
+            <Button
+              onClick={() =>
+                this.props.history.push("/rooms/allocationData/update/1")
+              }
+              className="btn btn-warning btn-simple btn-sm m-1"
+            >
+              Update
             </Button>
-            ,
           </div>,
         ],
       ],
@@ -115,9 +119,6 @@ class AllocationDetails extends Component {
             data={this.state.tableData}
             fields={this.fields}
           ></TableCompo>
-          <button type="button" className="btn btn-info ">
-            View Rooms
-          </button>
         </div>
       </div>
     );
